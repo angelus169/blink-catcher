@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Blink Catcher",
+  "version": "0.1.0",
+  "description": "Catches 1–3 frame inserts in Instagram Reels (hidden messages, '25th frame') and keeps them as full-size images.",
+  "permissions": [
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.instagram.com/*"
+      ],
+      "js": [
+        "detector.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

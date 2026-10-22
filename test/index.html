@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Blink Catcher test</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; gap: 12px; background: #111; color: #ddd; font: 14px system-ui; }
+  video { height: 75vh; }
+  p { max-width: 520px; text-align: center; }
+</style>
+</head>
+<body>
+<video src="blink.mp4" controls muted loop playsinline autoplay></video>
+<p>Expected catches: 2.50 (red), 4.00 (white box), 4.50 (thin outline, hardest), 5.00 (2 blue frames),
+  8.00 (yellow), 9.00 (green at a cut). No catch at 6.00 (plain cut).</p>
+<!-- Same two files the extension injects; chrome.storage is absent here, so settings are not saved. -->
+<script src="../detector.js"></script>
+<script src="../content.js"></script>
+</body>
+</html>
