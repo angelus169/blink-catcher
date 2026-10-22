@@ -1,0 +1,30 @@
+<!doctype html>
+<!-- The three "hidden" frames inserted into the demo video. ?v=1|2|3 -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; width: 540px; height: 960px; overflow: hidden; background: transparent; }
+  body { font-family: -apple-system, system-ui, sans-serif; }
+  .full { position: absolute; inset: 0; box-sizing: border-box; padding: 48px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 26px; text-align: center; }
+  .v1 { background: #ffe14d; color: #141416; }
+  .v2 { background: #141416; color: #fff; }
+  small { font-size: 28px; font-weight: 600; opacity: .75; }
+  big { font-size: 96px; font-weight: 900; line-height: .95; letter-spacing: -2px; }
+  .code { font: 800 64px/1 ui-monospace, Menlo, monospace; padding: 20px 28px; border: 6px dashed #ff2e63;
+    border-radius: 18px; color: #ff2e63; }
+  .sticker { position: absolute; top: 90px; right: 34px; padding: 18px 22px; border-radius: 20px; background: #fff;
+    color: #141416; font-size: 30px; font-weight: 800; transform: rotate(6deg); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+</style>
+</head>
+<body>
+<script>
+  document.body.innerHTML = {
+    1: '<div class="full v1"><small>psst… you paused at the right moment</small><big>HIDDEN<br>FRAME</big><small>comment “BLINK” for the link</small></div>',
+    2: '<div class="full v2"><small>secret code · 1 frame only</small><div class="code">BLINK-25</div></div>',
+    3: '<div class="sticker">👀 you saw me</div>',
+  }[new URLSearchParams(location.search).get('v')];
+</script>
+</body>
+</html>

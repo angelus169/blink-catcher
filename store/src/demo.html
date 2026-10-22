@@ -1,0 +1,29 @@
+<!doctype html>
+<!-- 1280×800 page for the store screenshots: demo video + the same scripts the extension injects. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Blink Catcher demo</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0b0b0d; color: #f2f2f2; font-family: -apple-system, system-ui, sans-serif; }
+  body { box-sizing: border-box; display: flex; align-items: center; gap: 64px; padding-left: 96px; }
+  .side { width: 360px; }
+  .side img { width: 72px; height: 72px; }
+  h1 { margin: 16px 0 14px; font-size: 44px; letter-spacing: -1px; }
+  p { margin: 0 0 14px; font-size: 19px; line-height: 1.5; color: #b5b5bb; }
+  b { color: #ff2e63; }
+  video { height: 720px; border-radius: 16px; box-shadow: 0 24px 64px rgba(0,0,0,.6); }
+</style>
+</head>
+<body>
+<div class="side">
+  <img src="../../icons/icon128.png" alt="">
+  <h1>Blink Catcher</h1>
+  <p>Some Reels hide a message in <b>one single frame</b>. It is gone before you can pause.</p>
+  <p>Blink Catcher checks every frame while you watch and keeps the hidden one as a full-size image.</p>
+</div>
+<video src="../build/demo.mp4" muted loop playsinline autoplay></video>
+<script src="../../detector.js"></script>
+<script src="../../content.js"></script>
+</body>
+</html>

@@ -233,7 +233,9 @@ footer button { color: #ff7a9a; font-size: 12px; }
     function createUI() {
         const host = document.createElement('div');
         host.id = 'blink-catcher';
-        host.style.cssText = 'all:initial;position:fixed;right:16px;bottom:16px;z-index:2147483647;';
+        // The font goes here too: `all: unset` on the pill button inherits from the host, not from `*`.
+        host.style.cssText = 'all:initial;position:fixed;right:16px;bottom:16px;z-index:2147483647;'
+            + 'font:13px/1.4 -apple-system,system-ui,"Segoe UI",Roboto,sans-serif;color:#f2f2f2;';
         const root = host.attachShadow({ mode: 'open' });
         root.innerHTML = `<style>${CSS}</style>
 <div class="toast" hidden></div>

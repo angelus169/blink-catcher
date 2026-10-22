@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Three frames of a film strip; the middle one is the caught insert. -->
+  <rect x="8" y="8" width="112" height="112" rx="26" fill="#141416"/>
+  <rect x="20" y="42" width="24" height="44" rx="6" fill="#4a4a50"/>
+  <rect x="84" y="42" width="24" height="44" rx="6" fill="#4a4a50"/>
+  <rect x="50" y="24" width="28" height="80" rx="7" fill="#ff2e63"/>
+  <path d="M55 64 Q64 53 73 64 Q64 75 55 64 Z" fill="#fff"/>
+  <circle cx="64" cy="64" r="3.5" fill="#141416"/>
+</svg>

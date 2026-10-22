@@ -1,2 +1,4 @@
 test/blink.mp4
+store/build/
+dist/
 .DS_Store

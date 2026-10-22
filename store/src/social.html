@@ -1,0 +1,34 @@
+<!doctype html>
+<!-- 1280×640 GitHub social preview. Frames come from store/build/strip-*.png. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  body { margin: 0; width: 1280px; height: 640px; box-sizing: border-box; padding: 0 88px; display: flex; align-items: center;
+    gap: 72px; color: #f2f2f2; font-family: -apple-system, system-ui, sans-serif;
+    background: radial-gradient(circle at 78% 50%, rgba(255,46,99,.20), transparent 50%), #0b0b0d; }
+  .text { flex: 1; }
+  .icon { width: 104px; height: 104px; }
+  h1 { margin: 18px 0 12px; font-size: 76px; letter-spacing: -2px; }
+  p { margin: 0; font-size: 30px; line-height: 1.35; color: #b5b5bb; }
+  .strip { display: flex; gap: 16px; align-items: flex-end; }
+  figure { margin: 0; text-align: center; }
+  figure img { display: block; height: 220px; border-radius: 12px; opacity: .5; }
+  figure.hit img { height: 320px; opacity: 1; outline: 5px solid #ff2e63; outline-offset: 5px; }
+  figcaption { margin-top: 14px; font-size: 20px; color: #8d8d93; }
+  figure.hit figcaption { color: #ff2e63; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="text">
+  <img class="icon" src="../../icons/icon128.png" alt="">
+  <h1>Blink Catcher</h1>
+  <p>Catches hidden one-frame messages in Instagram Reels.</p>
+</div>
+<div class="strip">
+  <figure><img src="../build/strip-1.png" alt=""><figcaption>before</figcaption></figure>
+  <figure class="hit"><img src="../build/strip-2.png" alt=""><figcaption>caught</figcaption></figure>
+  <figure><img src="../build/strip-3.png" alt=""><figcaption>after</figcaption></figure>
+</div>
+</body>
+</html>
