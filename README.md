@@ -15,6 +15,8 @@ After a code change, click **Reload** on the extension card and refresh the Inst
 ## Use
 
 - The red counter on the pill counts catches. Click the pill to open the panel.
+- The switch at the top of the panel turns checking on or off. Chrome remembers the choice;
+  when it is off, the pill is dimmed and videos play without any extra work.
 - Click a catch to see it full size, with the frames before and after it.
   **Download PNG** saves it; **Show in video** pauses the Reel on that frame.
 - **Pause on the caught frame** stops the video on each new catch.

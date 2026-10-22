@@ -7,7 +7,7 @@
     const store = globalThis.chrome?.storage?.local;
     const MAX_CATCHES = 50;
 
-    const settings = { sensitivity: 'normal', pauseOnCatch: false };
+    const settings = { enabled: true, sensitivity: 'normal', pauseOnCatch: false };
     let speed = 1;                  // not saved: every page load starts at 1×
     const seen = new WeakSet();
     const monitors = new Set();
@@ -53,6 +53,10 @@
                 return;
             }
             video.requestVideoFrameCallback(onFrame);
+            if (!settings.enabled) {
+                if (lastTime >= 0) reset();   // start clean when turned back on
+                return;
+            }
             const w = video.videoWidth, h = video.videoHeight;
             if (!w || !h) return;
             const t0 = performance.now();
@@ -176,6 +180,7 @@ button:focus-visible { outline: 2px solid #7aa7ff; outline-offset: 2px; }
 .count.has { background: #ff2e63; }
 .pill.ping { animation: ping .9s ease-out; }
 @keyframes ping { from { box-shadow: 0 0 0 0 rgba(255,46,99,.85); } to { box-shadow: 0 0 0 18px rgba(255,46,99,0); } }
+.pill.off { opacity: .55; }
 .panel, .toast { position: absolute; right: 0; bottom: calc(100% + 10px); background: rgba(18,18,20,.95);
   border-radius: 14px; box-shadow: 0 10px 36px rgba(0,0,0,.5); }
 .panel { width: 320px; max-height: min(70vh, 640px); overflow: auto; padding: 12px 14px; }
@@ -190,6 +195,14 @@ header b { font-weight: 700; font-size: 14px; }
 .seg button { padding: 3px 9px; border-radius: 6px; color: #c8c8cc; font-size: 12px; }
 .seg button.on { background: #f2f2f2; color: #111; }
 input[type=checkbox] { accent-color: #ff2e63; width: 16px; height: 16px; margin: 0; }
+.switch { position: relative; margin-left: auto; width: 34px; height: 20px; flex: none; }
+.switch input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; cursor: pointer; }
+.switch span { position: absolute; inset: 0; border-radius: 999px; background: #3a3a3e; transition: background .15s; pointer-events: none; }
+.switch span::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%;
+  background: #f2f2f2; transition: transform .15s; }
+.switch input:checked + span { background: #34d17a; }
+.switch input:checked + span::after { transform: translateX(14px); }
+.switch input:focus-visible + span { outline: 2px solid #7aa7ff; outline-offset: 2px; }
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 12px 0 8px; }
 .grid:empty::before { content: "Nothing caught yet. Play a Reel."; grid-column: 1 / -1; color: #8d8d93;
   font-size: 12px; padding: 14px 0; text-align: center; }
@@ -225,7 +238,9 @@ footer button { color: #ff7a9a; font-size: 12px; }
         root.innerHTML = `<style>${CSS}</style>
 <div class="toast" hidden></div>
 <section class="panel" hidden>
-  <header><b>Blink Catcher</b><button class="x" data-act="close-panel" title="Close">✕</button></header>
+  <header><b>Blink Catcher</b>
+    <label class="switch" title="Turn checking on or off"><input type="checkbox" data-set="enabled"><span></span></label>
+    <button class="x" data-act="close-panel" title="Close">✕</button></header>
   <p class="status"></p>
   <div class="row"><span>Sensitivity</span><div class="seg" data-set="sensitivity">
     <button data-v="low">Low</button><button data-v="normal">Normal</button><button data-v="high">High</button></div></div>
@@ -252,7 +267,8 @@ footer button { color: #ff7a9a; font-size: 12px; }
 
         const $ = s => root.querySelector(s);
         const pill = $('.pill'), dot = $('.dot'), count = $('.count'), toast = $('.toast');
-        const panel = $('.panel'), status = $('.status'), grid = $('.grid'), pause = $('[data-set=pauseOnCatch]');
+        const panel = $('.panel'), status = $('.status'), grid = $('.grid');
+        const toggles = root.querySelectorAll('input[data-set]');
         const viewer = $('.viewer'), big = $('.big'), strip = $('.strip'), meta = $('.meta');
         let view = null;            // { c, i } while the viewer is open
         let toastTimer = 0, statusTimer = 0;
@@ -284,7 +300,7 @@ footer button { color: #ff7a9a; font-size: 12px; }
         });
         toast.addEventListener('click', () => openViewer(catches[catches.length - 1]));
         viewer.addEventListener('click', e => { if (e.target === viewer) closeViewer(); });
-        pause.addEventListener('change', () => setOption('pauseOnCatch', pause.checked));
+        toggles.forEach(t => t.addEventListener('change', () => setOption(t.dataset.set, t.checked)));
         window.addEventListener('keydown', e => {
             if (!view) return;
             if (e.key === 'Escape') closeViewer();
@@ -376,6 +392,11 @@ footer button { color: #ff7a9a; font-size: 12px; }
         }
 
         function renderStatus() {
+            if (!settings.enabled) {
+                status.textContent = 'Off. Videos are not checked.';
+                dot.className = 'dot';
+                return;
+            }
             const s = stats();
             if (s.blocked && !s.active) {
                 status.textContent = 'Chrome blocks the pixels of this video (DRM or cross-origin), so it cannot be checked.';
@@ -397,7 +418,8 @@ footer button { color: #ff7a9a; font-size: 12px; }
                 const current = String(seg.dataset.set === 'speed' ? speed : settings[seg.dataset.set]);
                 for (const b of seg.children) b.classList.toggle('on', b.dataset.v === current);
             }
-            pause.checked = settings.pauseOnCatch;
+            toggles.forEach(t => { t.checked = settings[t.dataset.set]; });
+            pill.classList.toggle('off', !settings.enabled);
             if (!panel.hidden) {
                 grid.replaceChildren(...catches.map((c, i) => {
                     const b = document.createElement('button');
